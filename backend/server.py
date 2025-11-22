@@ -554,8 +554,19 @@ def generate_pdf_report(result: URLCheckResult) -> str:
 async def api_check_url(request: URLCheckRequest):
     """Check a URL for phishing/malicious content"""
     try:
+        # Validate URL is not empty
+        if not request.url or not request.url.strip():
+            raise HTTPException(status_code=400, detail="URL cannot be empty")
+        
+        # Validate URL format
+        parsed = urlparse(request.url)
+        if not parsed.scheme or not parsed.netloc:
+            raise HTTPException(status_code=400, detail="Invalid URL format. Please include http:// or https://")
+        
         result = await check_url(request.url)
         return result
+    except HTTPException:
+        raise
     except Exception as e:
         logging.error(f"Error checking URL: {e}")
         raise HTTPException(status_code=500, detail=str(e))

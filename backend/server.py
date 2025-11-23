@@ -16,7 +16,23 @@ import asyncio
 from urllib.parse import urlparse, parse_qs, urlencode, urlunparse
 import hashlib
 import json
-from emergentintegrations.llm.chat import LlmChat, UserMessage
+try:
+    from emergentintegrations.llm.chat import LlmChat, UserMessage
+    EMERGENT_AVAILABLE = True
+except ImportError:
+    EMERGENT_AVAILABLE = False
+    # Create dummy classes for fallback
+    class LlmChat:
+        def __init__(self, *args, **kwargs):
+            pass
+        def with_model(self, *args, **kwargs):
+            return self
+        async def send_message(self, message):
+            return '{"risk_score": 50, "confidence": 60, "reasoning": "AI analysis unavailable", "threat_types": ["unknown"]}'
+    
+    class UserMessage:
+        def __init__(self, text):
+            self.text = text
 from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle

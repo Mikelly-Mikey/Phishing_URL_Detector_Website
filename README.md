@@ -135,20 +135,18 @@ Get detailed information about a specific scan.
 ### GET /api/scan/{scan_id}/pdf
 Download PDF report for a specific scan.
 
-## Environment Variables
+## Configuration
 
-### Backend (.env)
-```
-MONGO_URL=mongodb://localhost:27017
-DB_NAME=phishing_checker_db
-CORS_ORIGINS=*
-EMERGENT_LLM_KEY=sk-emergent-xxxxx
-```
+### Backend
+Create a `.env` file in the backend directory with the following variables:
+- `MONGO_URL`: MongoDB connection string
+- `DB_NAME`: Your database name
+- `CORS_ORIGINS`: Allowed CORS origins (e.g., `http://localhost:3000` for development)
+- `EMERGENT_LLM_KEY`: Your Emergent API key
 
-### Frontend (.env)
-```
-REACT_APP_BACKEND_URL=https://your-domain.com
-```
+### Frontend
+Create a `.env` file in the frontend directory with:
+- `REACT_APP_BACKEND_URL`: Your backend API URL (e.g., `http://localhost:8000` for development)
 
 ## Usage
 
